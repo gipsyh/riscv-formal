@@ -1,9 +1,8 @@
 [options]
 mode cover
-depth 100
 
 [engines]
-smtbmc boolector
+aiger rIC3
 
 [script]
 verilog_defines -D RISCV_FORMAL

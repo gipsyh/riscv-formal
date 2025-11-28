@@ -1,10 +1,8 @@
 [options]
-mode bmc
-aigsmt z3
-depth 20
+mode prove
 
 [engines]
-abc bmc3
+aiger rIC3
 
 [script]
 verilog_defines -D DEBUGNETS

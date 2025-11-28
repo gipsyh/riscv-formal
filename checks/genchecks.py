@@ -37,12 +37,12 @@ blackbox = False
 cfgname = "checks"
 basedir = f"{os.getcwd()}/../.."
 corename = os.getcwd().split("/")[-1]
-solver = "boolector"
+solver = "rIC3"
 dumpsmt2 = False
 abspath = False
 sbycmd = "sby"
 config = dict()
-mode = "bmc"
+mode = "prove"
 
 if len(sys.argv) > 1:
     assert len(sys.argv) == 2
@@ -290,6 +290,9 @@ if solver == "bmc3":
 elif solver == "btormc":
     hargs["engine"] = "btor btormc"
     hargs["ilang_file"] = f"{corename}-hier.il"
+elif solver == "rIC3":
+    hargs["engine"] = "btor rIC3"
+    hargs["ilang_file"] = f"{corename}-gates.il"
 else:
     hargs["engine"] = f"smtbmc {'--dumpsmt2 ' if dumpsmt2 else ''}{solver}"
     hargs["ilang_file"] = f"{corename}-hier.il"
@@ -383,9 +386,9 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
                 : [options]
                 : mode @mode@
                 : expect pass,fail
-                : append @append@
-                : depth @depth_plus@
-                : skip @skip@
+                # : append @append@
+                # : depth @depth_plus@
+                # : skip @skip@
                 :
                 : [engines]
                 : @engine@
@@ -655,9 +658,6 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
                 : [options]
                 : mode @xmode@
                 : expect pass,fail
-                : append @append@
-                : depth @depth_plus@
-                : skip @skip@
                 :
                 : [engines]
                 : @engine@
