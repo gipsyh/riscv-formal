@@ -78,98 +78,8 @@
 /*	`NERV_CSR_REG_MRW(mseccfg,           12'h 747, 32'h 0000_0000) */		\
 /*	`NERV_CSR_REG_MRW(mseccfgh,          12'h 757, 32'h 0000_0000) */
 
-`ifdef NERV_PMP
-/* PMP is optional and can be implemented with 0, 16, or 64 address CSRS */
-`define NERV_PMP_CFG_CSRS /* Machine Memory Protection Config CSRs */			\
-	/* PMP configuration is 8-bits long, */						\
-	/* so each cfg controls four PMPs in RV32 */					\
-	`NERV_CSR_VAL_MRW(pmpcfg0,           12'h 3A0, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg1,           12'h 3A1, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg2,           12'h 3A2, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg3,           12'h 3A3, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg4,           12'h 3A4, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg5,           12'h 3A5, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg6,           12'h 3A6, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg7,           12'h 3A7, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg8,           12'h 3A8, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg9,           12'h 3A9, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg10,          12'h 3AA, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg11,          12'h 3AB, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg12,          12'h 3AC, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg13,          12'h 3AD, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg14,          12'h 3AE, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpcfg15,          12'h 3AF, 32'h 0000_0000)
-
-`define NERV_PMP_ADDR_CSRS /* Machine Memory Protection Addr CSRs */			\
-	`NERV_CSR_VAL_MRW(pmpaddr0,          12'h 3B0, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr1,          12'h 3B1, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr2,          12'h 3B2, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr3,          12'h 3B3, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr4,          12'h 3B4, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr5,          12'h 3B5, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr6,          12'h 3B6, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr7,          12'h 3B7, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr8,          12'h 3B8, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr9,          12'h 3B9, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr10,         12'h 3BA, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr11,         12'h 3BB, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr12,         12'h 3BC, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr13,         12'h 3BD, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr14,         12'h 3BE, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr15,         12'h 3BF, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr16,         12'h 3C0, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr17,         12'h 3C1, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr18,         12'h 3C2, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr19,         12'h 3C3, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr20,         12'h 3C4, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr21,         12'h 3C5, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr22,         12'h 3C6, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr23,         12'h 3C7, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr24,         12'h 3C8, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr25,         12'h 3C9, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr26,         12'h 3CA, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr27,         12'h 3CB, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr28,         12'h 3CC, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr29,         12'h 3CD, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr30,         12'h 3CE, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr31,         12'h 3CF, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr32,         12'h 3D0, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr33,         12'h 3D1, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr34,         12'h 3D2, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr35,         12'h 3D3, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr36,         12'h 3D4, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr37,         12'h 3D5, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr38,         12'h 3D6, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr39,         12'h 3D7, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr40,         12'h 3D8, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr41,         12'h 3D9, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr42,         12'h 3DA, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr43,         12'h 3DB, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr44,         12'h 3DC, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr45,         12'h 3DD, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr46,         12'h 3DE, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr47,         12'h 3DF, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr48,         12'h 3E0, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr49,         12'h 3E1, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr50,         12'h 3E2, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr51,         12'h 3E3, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr52,         12'h 3E4, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr53,         12'h 3E5, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr54,         12'h 3E6, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr55,         12'h 3E7, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr56,         12'h 3E8, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr57,         12'h 3E9, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr58,         12'h 3EA, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr59,         12'h 3EB, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr60,         12'h 3EC, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr61,         12'h 3ED, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr62,         12'h 3EE, 32'h 0000_0000)			\
-	`NERV_CSR_VAL_MRW(pmpaddr63,         12'h 3EF, 32'h 0000_0000)
-
-`else
 `define NERV_PMP_CFG_CSRS
 `define NERV_PMP_ADDR_CSRS
-`endif
 
 `define NERV_COUNTER_CSRS /* Machine Counter/Timers CSRs */				\
 	`NERV_CSR_ARR_DEF(hpm_counter, 32)						\
@@ -1284,39 +1194,4 @@ module nerv #(
 		end
 	end
 
-
-`ifdef NERV_DBGREGS
-	wire [31:0] dbg_reg_x0  = 0;
-	wire [31:0] dbg_reg_x1  = regfile[1];
-	wire [31:0] dbg_reg_x2  = regfile[2];
-	wire [31:0] dbg_reg_x3  = regfile[3];
-	wire [31:0] dbg_reg_x4  = regfile[4];
-	wire [31:0] dbg_reg_x5  = regfile[5];
-	wire [31:0] dbg_reg_x6  = regfile[6];
-	wire [31:0] dbg_reg_x7  = regfile[7];
-	wire [31:0] dbg_reg_x8  = regfile[8];
-	wire [31:0] dbg_reg_x9  = regfile[9];
-	wire [31:0] dbg_reg_x10 = regfile[10];
-	wire [31:0] dbg_reg_x11 = regfile[11];
-	wire [31:0] dbg_reg_x12 = regfile[12];
-	wire [31:0] dbg_reg_x13 = regfile[13];
-	wire [31:0] dbg_reg_x14 = regfile[14];
-	wire [31:0] dbg_reg_x15 = regfile[15];
-	wire [31:0] dbg_reg_x16 = regfile[16];
-	wire [31:0] dbg_reg_x17 = regfile[17];
-	wire [31:0] dbg_reg_x18 = regfile[18];
-	wire [31:0] dbg_reg_x19 = regfile[19];
-	wire [31:0] dbg_reg_x20 = regfile[20];
-	wire [31:0] dbg_reg_x21 = regfile[21];
-	wire [31:0] dbg_reg_x22 = regfile[22];
-	wire [31:0] dbg_reg_x23 = regfile[23];
-	wire [31:0] dbg_reg_x24 = regfile[24];
-	wire [31:0] dbg_reg_x25 = regfile[25];
-	wire [31:0] dbg_reg_x26 = regfile[26];
-	wire [31:0] dbg_reg_x27 = regfile[27];
-	wire [31:0] dbg_reg_x28 = regfile[28];
-	wire [31:0] dbg_reg_x29 = regfile[29];
-	wire [31:0] dbg_reg_x30 = regfile[30];
-	wire [31:0] dbg_reg_x31 = regfile[31];
-`endif
 endmodule
