@@ -291,7 +291,7 @@ elif solver == "btormc":
     hargs["engine"] = "btor btormc"
     hargs["ilang_file"] = f"{corename}-hier.il"
 elif solver == "rIC3":
-    hargs["engine"] = "btor rIC3"
+    hargs["engine"] = "btor --nomem rIC3"
     hargs["ilang_file"] = f"{corename}-gates.il"
 else:
     hargs["engine"] = f"smtbmc {'--dumpsmt2 ' if dumpsmt2 else ''}{solver}"
