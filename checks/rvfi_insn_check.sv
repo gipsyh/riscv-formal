@@ -145,61 +145,61 @@ module rvfi_insn_check (
 				assume(spec_valid);
 
 				if (!`rvformal_addr_valid(pc_rdata) || !insn_pma_x || mem_access_fault) begin
-					assert(trap);
-					assert(rd_addr == 0);
-					assert(rd_wdata == 0);
-					assert(mem_wmask == 0);
+					trap_on_access_fault: assert(trap);
+					no_rd_addr_on_access_fault: assert(rd_addr == 0);
+					no_rd_wdata_on_access_fault: assert(rd_wdata == 0);
+					no_mem_write_on_access_fault: assert(mem_wmask == 0);
 `ifdef RISCV_FORMAL_MEM_FAULT
 					if (mem_fault) begin
-						assert(mem_rmask == 0);
-						assert(spec_mem_wmask || spec_mem_rmask);
-						assert(`rvformal_addr_eq(spec_mem_addr, mem_addr));
+						no_mem_read_on_mem_fault: assert(mem_rmask == 0);
+						spec_mem_access_on_mem_fault: assert(spec_mem_wmask || spec_mem_rmask);
+						mem_fault_addr_match: assert(`rvformal_addr_eq(spec_mem_addr, mem_addr));
 
-						assert(mem_fault_wmask == spec_mem_wmask);
-						assert((mem_fault_rmask & spec_mem_rmask) == spec_mem_rmask);
+						mem_fault_wmask_match: assert(mem_fault_wmask == spec_mem_wmask);
+						mem_fault_rmask_covers_spec: assert((mem_fault_rmask & spec_mem_rmask) == spec_mem_rmask);
 					end
 `endif
 				end else begin
 `ifdef RISCV_FORMAL_CSR_MISA
-					assert((spec_csr_misa_rmask & csr_misa_rmask) == spec_csr_misa_rmask);
+					csr_misa_rmask_covers_spec: assert((spec_csr_misa_rmask & csr_misa_rmask) == spec_csr_misa_rmask);
 `endif
 
 					if (rs1_addr == 0)
-						assert(rs1_rdata == 0);
+						x0_rs1_reads_zero: assert(rs1_rdata == 0);
 
 					if (rs2_addr == 0)
-						assert(rs2_rdata == 0);
+						x0_rs2_reads_zero: assert(rs2_rdata == 0);
 
 					if (!spec_trap) begin
 						if (spec_rs1_addr != 0)
-							assert(spec_rs1_addr == rs1_addr);
+							rs1_addr_match: assert(spec_rs1_addr == rs1_addr);
 
 						if (spec_rs2_addr != 0)
-							assert(spec_rs2_addr == rs2_addr);
+							rs2_addr_match: assert(spec_rs2_addr == rs2_addr);
 
-						assert(spec_rd_addr == rd_addr);
-						assert(spec_rd_wdata == rd_wdata);
-						assert(`rvformal_addr_eq(spec_pc_wdata, pc_wdata));
+						rd_addr_match: assert(spec_rd_addr == rd_addr);
+						rd_wdata_match: assert(spec_rd_wdata == rd_wdata);
+						pc_wdata_match: assert(`rvformal_addr_eq(spec_pc_wdata, pc_wdata));
 
 						if (spec_mem_wmask || spec_mem_rmask) begin
-							assert(`rvformal_addr_eq(spec_mem_addr, mem_addr));
+							mem_addr_match: assert(`rvformal_addr_eq(spec_mem_addr, mem_addr));
 						end
 
 						// for (i = 0; i < `RISCV_FORMAL_XLEN/8; i = i+1) begin
 						if (spec_mem_wmask[i]) begin
-							assert(mem_wmask[i]);
-							assert(spec_mem_wdata[i*8 +: 8] == mem_wdata[i*8 +: 8]);
+							mem_wmask_match: assert(mem_wmask[i]);
+							mem_wdata_match: assert(spec_mem_wdata[i*8 +: 8] == mem_wdata[i*8 +: 8]);
 						end else if (mem_wmask[i]) begin
-							assert(mem_rmask[i]);
-							assert(mem_rdata[i*8 +: 8] == mem_wdata[i*8 +: 8]);
+							mem_write_requires_read: assert(mem_rmask[i]);
+							mem_write_preserves_rdata: assert(mem_rdata[i*8 +: 8] == mem_wdata[i*8 +: 8]);
 						end
 						if (spec_mem_rmask[i]) begin
-							assert(mem_rmask[i]);
+							mem_rmask_match: assert(mem_rmask[i]);
 						end
 						// end
 					end
 
-					assert(spec_trap == trap);
+					trap_match: assert(spec_trap == trap);
 				end
 			end
 		end
