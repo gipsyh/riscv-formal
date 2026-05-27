@@ -30,16 +30,9 @@ module rvfi_testbench (
 	always_comb assume (reset == $initstate);
 `endif
 
-	reg [7:0] cycle_reg = 0;
-	wire [7:0] cycle = reset ? 8'd 0 : cycle_reg;
-
-	always @(posedge clock) begin
-		cycle_reg <= reset ? 8'd 1 : cycle_reg + (cycle_reg != 8'h ff);
-	end
-
 	`RISCV_FORMAL_CHECKER checker_inst (
 		.clock  (clock),
-		.reset  (cycle < `RISCV_FORMAL_RESET_CYCLES),
+		.reset  (reset),
 `ifdef RISCV_FORMAL_TRIG_CYCLE
 `ifdef RISCV_FORMAL_UNBOUNDED
 		.trig   (trig),

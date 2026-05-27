@@ -725,7 +725,6 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
             : `define RISCV_FORMAL_NRET @nret@
             : `define RISCV_FORMAL_XLEN @xlen@
             : `define RISCV_FORMAL_ILEN @ilen@
-            : `define RISCV_FORMAL_RESET_CYCLES 1
             : `define RISCV_FORMAL_CHECK_CYCLE @depth@
             : `define RISCV_FORMAL_CHANNEL_IDX @channel@
     """,
@@ -951,6 +950,11 @@ def check_cons(
     else:
         start = 1
 
+    if start != 1:
+        raise ValueError(
+            f"{check}: rIC3 requires start to be 1, got configured start {start}."
+        )
+
     if trig is not None:
         trig = depth_cfg[trig]
 
@@ -993,7 +997,6 @@ def check_cons(
             : `define RISCV_FORMAL_XLEN @xlen@
             : `define RISCV_FORMAL_ILEN @ilen@
             : `define RISCV_FORMAL_CHECKER rvfi_@check@_check
-            : `define RISCV_FORMAL_RESET_CYCLES @start@
             : `define RISCV_FORMAL_CHECK_CYCLE @depth@
     """,
         **hargs,
