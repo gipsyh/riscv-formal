@@ -8,8 +8,12 @@
 `define rvformal_rand_reg reg
 `define rvformal_rand_const_reg reg
 `else
+`ifdef YOSYS_SLANG
+`define rvformal_rand_reg wire
+`else
 `define rvformal_rand_reg wire
 `define rvformal_rand_const_reg reg
+`endif
 `endif
 `endif
 
