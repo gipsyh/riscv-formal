@@ -514,6 +514,9 @@ def write_ric3_project(check, source_files, include_files, include_dirs, generat
         if include_files:
             print_toml_array(f, "include_files", include_files)
         print('reset = "reset"', file=f)
+        print("", file=f)
+        print("[formal]", file=f)
+        print('invariants = "invariants.sv"', file=f)
 
 
 def hfmt(text, **kwargs):
