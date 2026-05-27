@@ -363,6 +363,7 @@ def write_invariants_file(project_dir):
         print("", file=f)
         print("    always @(posedge clock) begin", file=f)
         print("        if (!reset) begin", file=f)
+        print("            // rvfi_testbench.<module>.<signal>", file=f)
         print("        end", file=f)
         print("    end", file=f)
         print("", file=f)
